@@ -1,0 +1,89 @@
+rails new hello_app : Railsアプリのスケルトンを作成する
+rails generate scaffold User name:string email:string
+rails db:migrate
+model has_many
+model belongs_to
+herok create
+heroku rename
+git push heroku master
+heroku run rails db:migrate
+rails generate controller StaticPages home help
+rails destroy  controller StaticPages home help: generateをなかったことにする
+rails db:rollback : migrateをなかったことにする
+rails db:migrate VERSION=0 : はじめのバージョンに戻す
+  テスト作る作らない問題（抜粋）
+  ・動作の仕様がまだ固まりきっていない場合、アプリケーションのコードを先に書き、期待する動作を「後で」書く
+  ・バグを見つけたら、そのバグを再現するテストを「先に」書き、回帰バグを防ぐ体制を整えてから修正に取りかかる
+  ・リファクタリングするときは「先に」テストを書く。特に、エラーを起こしそうなコードや止まってしまいそうなコードを集中的にテストする
+rails test
+assert_response :sucess : HTTPのレスポンス
+assert_select タグの中の値をチェックする
+<% provide(:title, "Home") %>
+<%= yield(:title) %>
+root 'static_pages#home'
+minitest reporters
+・test/test_helper.rbに書く
+・require 'minitest/reporters'
+・Minitest::Reporters.use!
+Guard : 不安定なところがあるらしいので使わず
+link_to "Sign up now!", "URL"
+image_tag("rails_png", alt: "Rails logo"),
+render "layouts/shim" : パーシャル shim = app/views/layouts/_shim.html.erb
+root 'static_pages#home' : 名前付きルート
+get  '/help',    to: 'static_pages#help' : 名前付きルート
+rails generate integration_test site_layout : 統合テスト
+assert_select "a[href=?]", root_path, count: 2 : リンクの存在確認テスト
+rails test:integration : 統合テストのみ実行
+rails generate model User name:string email:string
+rails console --sandbox
+user.save : userを保存する
+User.create : userを作成する上保存も行う
+user.destroy
+User.find(1)
+User.find_by(email: "project.masawa@gmail.com")
+User.find_by_email("project.masawa@gmail.com")
+User.first
+User.all
+user.update_attribute(:name, "masawa").save
+@user.errors.full_message
+@user.errors.messages
+assert @user.valid?, "#{address.inspect} should be valid"
+rails generate migration add_index_to_users_email
+has_secure_password
+rails g migration add_password_digest_to_users password_digest:string
+!!user.authenticate("foobar") => true
+heroku run rails console --sandbox
+heroku run rails db:migrate
+<% debug(params) if Rails.env.development? %>
+byebug gem : debugger
+マスアサインメント : ハッシュを使ってRubyの変数を初期化する方法。Railsではセキュリティに問題がある。
+Strong Parameters : マスアサインメントへの対応策 params.require(:user).permit(:name, :email, :password, :password_confirmation)
+get signup_path : ユーザー登録ページにアクセス
+redirect_to @user
+redirect_to user_url(@user)
+rails db:migrate:reset
+follow_redirect!
+assert_template 'users/show'
+scss : @mixin box_sizing {
+scss : @include box_sizing;
+セッション時間 : session < cokkies
+rails routes
+<%= form_for(@user) do |f| %>
+<%= form_for(:session, url login_path) do |f| %>
+assert_redirected_to @user : リダイレクト先が正しいか
+test/test_helper.rb
+session.delete(:user_id)
+session, params, cookiesはRailsでは予約語(?)
+SecureRandom.urlsafe_base64
+cookies.signed[:user_id] = user.id
+cookies.permanent.signed[:user_id] = user.id
+assert_not
+assert_redirected_to @user
+allow_nil: true
+gem 'faker', '1.7.3'
+db/seeds.rb
+rails db:seed
+gem 'will_pagenate', '3.1.5'
+gem 'bootstrap-will_pagenate', '1.0.0'
+@users = User.pagenate(page: params[:page])
+
