@@ -86,4 +86,15 @@ rails db:seed
 gem 'will_pagenate', '3.1.5'
 gem 'bootstrap-will_pagenate', '1.0.0'
 @users = User.pagenate(page: params[:page])
+resources :account_activation, only: ["edit"]
+before_create :create_activation_digest
+Time.zone.now
+rails generate mailer UserMailer account_activation password_reset
+edit_account_activation_url(@user.activation_token, @user.email)
+CGI.escape(@user.email)
+assert_match CGI.escape(user.email), mail.body.encoded
+assigns(:user)
+update_columns(activated: true, activated_at: Time.zone.now)
+
+
 
