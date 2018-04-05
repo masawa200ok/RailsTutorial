@@ -5,6 +5,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
     @other_user = users(:archer)
+    @non_activated = users(:non_activated)
   end
 
   test "unsuccessful edit" do
@@ -87,4 +88,14 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     assert_equal name, @user.name
     assert_equal email, @user.email
   end
+
+  test "should not allow the not activated attribute" do
+    log_in_as(@non_activated)
+    assert_not @non_activated.activated?
+    get users_path
+    assert_select "a[href=?]", user_path(@non_activated), count: 0
+    get user_path(@non_activated)
+    assert_redirected_to root_url
+  end
+
 end
