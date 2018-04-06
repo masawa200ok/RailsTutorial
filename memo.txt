@@ -95,6 +95,6 @@ CGI.escape(@user.email)
 assert_match CGI.escape(user.email), mail.body.encoded
 assigns(:user)
 update_columns(activated: true, activated_at: Time.zone.now)
-
-
+flash.now[:danger] = "Email address not found"
+<%= hidden_field_tag :email, @user.email %>
 
