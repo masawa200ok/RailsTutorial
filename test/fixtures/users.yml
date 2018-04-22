@@ -36,3 +36,9 @@ non_activated:
   activated: false
   activated_at: <%= Time.zone.now %>
 
+micropost_0_user:
+  name: Non MicroPost User
+  email: non_micropost_user@example.com
+  password_digest: <%= User.digest("password") %>
+  activated: true
+  activated_at: <%= Time.zone.now %>

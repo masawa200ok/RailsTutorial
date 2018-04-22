@@ -97,4 +97,14 @@ assigns(:user)
 update_columns(activated: true, activated_at: Time.zone.now)
 flash.now[:danger] = "Email address not found"
 <%= hidden_field_tag :email, @user.email %>
+rails g model Micropost content:text user:references
+default_scope -> { order(created_at: :desc) }
+has_many :microposts, dependent: :destroy
+Faker - https://github.com/stympy/faker
+
+
+
+
+
+
 
