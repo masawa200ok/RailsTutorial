@@ -101,8 +101,10 @@ rails g model Micropost content:text user:references
 default_scope -> { order(created_at: :desc) }
 has_many :microposts, dependent: :destroy
 Faker - https://github.com/stympy/faker
-
-
+has_many :active_relationships,  class_name: "Relationship",
+                                 foreign_key: "follower_id",
+                                 dependent: :destroy
+has_many :following, through: :active_relationships,  source: :followed
 
 
 
